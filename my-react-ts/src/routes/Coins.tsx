@@ -1,14 +1,81 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-// styled-components를 사용하여 h1 태그를 스타일링한 Title 컴포넌트
-// theme에서 정의된 accentColor를 글자색으로 사용
-const Title = styled.h1.attrs({
-  className: "text-4xl font-bold",
+const Container = styled.div.attrs({
+  className: "p-4",
+})``;
+
+const Header = styled.header.attrs({
+  className: "h-[15vh] flex justify-center items-center",
+})``;
+
+const CoinsList = styled.ul``;
+
+const Coin = styled.li.attrs({
+  className: "bg-white rounded-[15px] mb-[10px]",
 })`
+  color: ${(props) => props.theme.bgColor};
+  a {
+    padding: 20px;
+    transition: color 0.2s ease-in;
+    display: block;
+  }
+  &:hover {
+    a {
+      color: ${(props) => props.theme.accentColor};
+    }
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 48px;
   color: ${(props) => props.theme.accentColor};
 `;
 
+const coins = [
+  {
+    id: "btc-bitcoin",
+    name: "Bitcoin",
+    symbol: "BTC",
+    rank: 1,
+    is_new: false,
+    is_active: true,
+    type: "coin",
+  },
+  {
+    id: "eth-ethereum",
+    name: "Ethereum",
+    symbol: "ETH",
+    rank: 2,
+    is_new: false,
+    is_active: true,
+    type: "coin",
+  },
+  {
+    id: "hex-hex",
+    name: "HEX",
+    symbol: "HEX",
+    rank: 3,
+    is_new: false,
+    is_active: true,
+    type: "token",
+  },
+];
+
 function Coins() {
-  return <Title>코인</Title>;
+  return (
+    <Container>
+      <Header>
+        <Title>코인</Title>
+      </Header>
+      <CoinsList>
+        {coins.map((coin) => (
+          <Coin key={coin.id}>
+            <Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+          </Coin>
+        ))}
+      </CoinsList>
+    </Container>
+  );
 }
 export default Coins;
