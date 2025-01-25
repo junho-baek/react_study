@@ -1,11 +1,4 @@
-import React from "react";
-
 function Coins() {
-  return (
-    <div>
-      <h1>Coins</h1>
-    </div>
-  );
+  return <h1>Coins</h1>;
 }
-
 export default Coins;
