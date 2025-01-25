@@ -2,7 +2,7 @@ import { createHashRouter } from "react-router-dom";
 import Root from "./Root";
 import Coin from "./routes/Coin";
 import Coins from "./routes/Coins";
-
+import NotFound from "./screens/NotFound";
 const router = createHashRouter([
   {
     path: "/",
@@ -17,6 +17,7 @@ const router = createHashRouter([
         element: <Coin />,
       },
     ],
+    errorElement: <NotFound />,
   },
 ]);
 

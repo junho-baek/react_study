@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 import App from "./App";
+import "./index.css"; // 이 줄 추가
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
