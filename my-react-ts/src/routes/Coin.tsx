@@ -46,7 +46,7 @@ function Coin() {
       setPrice(priceData);
       console.log(infoData, priceData);
       setLoading(false);
-    })();
+    })(); // 함수를 선언과 동시에 호출하는 것이다. ()() 이게 핵심.
   }, []);
 
   return (
