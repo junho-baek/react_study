@@ -42,6 +42,7 @@ function Coin() {
           `https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}`
         )
       ).json();
+      console.log(price, info);
       setInfo(infoData);
       setPrice(priceData);
       console.log(infoData, priceData);
