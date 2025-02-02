@@ -170,9 +170,20 @@ function Coin() {
             </OverviewItem>
           </Overview>
 
-          <div className="flex gap-4 justify-center mb-4 mt-8">
-            <Link to="chart">차트</Link>
-            <Link to="price">가격</Link>
+          <div className="flex gap-4 justify-center items-center mb-4 mt-8">
+            <Link
+              to="chart"
+              className="bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg hover:bg-[rgba(0,0,0,0.7)] transition-colors"
+            >
+              차트
+            </Link>
+            <div className="w-[1px] h-[20px] bg-gray-500 opacity-50"></div>
+            <Link
+              to="price"
+              className="bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg hover:bg-[rgba(0,0,0,0.7)] transition-colors"
+            >
+              가격
+            </Link>
           </div>
           <Outlet />
         </>
