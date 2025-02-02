@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useMatch,
+  useParams,
+} from "react-router-dom";
 import styled from "styled-components";
 
 const Title = styled.h1.attrs({
@@ -101,10 +107,12 @@ interface PriceData {
 
 function Coin() {
   const [loading, setLoading] = useState(true);
-  const { coinId } = useParams(); // 파라미터는 어차피 스트링이다. url 에서 가져오기 때문이지<div className=""></div>
+  const { coinId } = useParams();
   const { state } = useLocation();
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
+  const chartMatch = useMatch("/:coinId/chart");
+  const priceMatch = useMatch("/:coinId/price");
 
   useEffect(() => {
     (async () => {
@@ -119,7 +127,7 @@ function Coin() {
       setPriceInfo(priceData);
       console.log(infoData, priceData);
       setLoading(false);
-    })(); // 함수를 선언과 동시에 호출하는 것이다. ()() 이게 핵심.
+    })();
   }, [coinId]);
 
   return (
@@ -173,14 +181,22 @@ function Coin() {
           <div className="flex gap-4 justify-center items-center mb-4 mt-8">
             <Link
               to="chart"
-              className="bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg hover:bg-[rgba(0,0,0,0.7)] transition-colors"
+              className={`bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg transition-colors ${
+                chartMatch
+                  ? "text-yellow-400 bg-[rgba(0,0,0,0.7)]"
+                  : "hover:bg-[rgba(0,0,0,0.7)]"
+              }`}
             >
               차트
             </Link>
             <div className="w-[1px] h-[20px] bg-gray-500 opacity-50"></div>
             <Link
               to="price"
-              className="bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg hover:bg-[rgba(0,0,0,0.7)] transition-colors"
+              className={`bg-[rgba(0,0,0,0.5)] px-6 py-2 rounded-lg transition-colors ${
+                priceMatch
+                  ? "text-yellow-400 bg-[rgba(0,0,0,0.7)]"
+                  : "hover:bg-[rgba(0,0,0,0.7)]"
+              }`}
             >
               가격
             </Link>
