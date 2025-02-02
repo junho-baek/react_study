@@ -65,7 +65,7 @@ function Coins() {
       setCoins(json.slice(0, 100));
       setLoading(false);
     })();
-  }, []);
+  }, []); // 비어있는 배열을 넣어주면 컴포넌트가 마운트 될때 한번만 실행된다.
   return (
     <Container>
       <Header>
