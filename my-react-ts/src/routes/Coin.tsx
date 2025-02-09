@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Link,
   Outlet,
@@ -7,6 +8,7 @@ import {
   useParams,
 } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Title = styled.h1.attrs({
   className: "text-[48px] w-full",
@@ -23,6 +25,7 @@ const Overview = styled.div`
 `;
 const OverviewItem = styled.div`
   display: flex;
+  width: 33%;
   flex-direction: column;
   align-items: center;
   span:first-child {
@@ -106,39 +109,31 @@ interface PriceData {
 }
 
 function Coin() {
-  const [loading, setLoading] = useState(true);
   const { coinId } = useParams();
   const { state } = useLocation();
-  const [info, setInfo] = useState<InfoData>();
-  const [priceInfo, setPriceInfo] = useState<PriceData>();
+
   const chartMatch = useMatch("/:coinId/chart");
   const priceMatch = useMatch("/:coinId/price");
 
-  useEffect(() => {
-    (async () => {
-      const infoData = await (
-        await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-      ).json();
-      const priceData = await (
-        await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-      ).json();
-      console.log(priceInfo, info);
-      setInfo(infoData);
-      setPriceInfo(priceData);
-      console.log(infoData, priceData);
-      setLoading(false);
-    })();
-  }, [coinId]);
+  const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>({
+    queryKey: ["info", coinId],
+    queryFn: () => fetchCoinInfo(coinId as string),
+  });
+  const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>({
+    queryKey: ["tickers", coinId],
+    queryFn: () => fetchCoinTickers(coinId as string),
+  });
+  const loading = infoLoading || tickersLoading;
 
   return (
     <Container>
-      <Header>
+      <Header className="h-[25vh] flex justify-center items-center flex-col">
         <Img
           className=""
           src={`https://cryptocurrencyliveprices.com/img/${coinId}.png`}
         />
-        <Title className="mb-[10px] text-center">
-          {state?.name ? state.name : loading ? "Loading..." : info?.name}
+        <Title className="mb-[60px] text-center">
+          {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -153,28 +148,28 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>순위:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>심볼:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>가격:</span>
-              <span>${priceInfo?.quotes.USD.price.toFixed(3)}</span>
+              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
 
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
 
           <Overview>
             <OverviewItem>
               <span>총 공급량:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickersData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>최대 공급량:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickersData?.max_supply}</span>
             </OverviewItem>
           </Overview>
 

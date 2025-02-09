@@ -4,6 +4,7 @@ import Coin from "./routes/Coin";
 import Coins from "./routes/Coins";
 import Chart from "./routes/Chart";
 import Price from "./routes/Price";
+// import Timetable from "./routes/Timetable";
 import NotFound from "./screens/NotFound";
 const router = createHashRouter([
   {

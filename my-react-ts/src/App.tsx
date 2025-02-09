@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // 글로벌 스타일에는 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap'); 이런 코드가 있으면 안된다. html 에 옮겨서 해결 가능
 // GlobalStyle - 전역 스타일 설정
@@ -73,6 +74,7 @@ function App() {
     <>
       <GlobalStyle />
       <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
 }
