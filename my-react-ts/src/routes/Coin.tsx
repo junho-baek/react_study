@@ -118,11 +118,14 @@ function Coin() {
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>({
     queryKey: ["info", coinId],
     queryFn: () => fetchCoinInfo(coinId as string),
+    staleTime: 1000 * 60 * 5, // 5분 동안 신선함
   });
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>({
     queryKey: ["tickers", coinId],
     queryFn: () => fetchCoinTickers(coinId as string),
+    staleTime: 1000 * 60 * 5, // 5분 동안 신선함
   });
+
   const loading = infoLoading || tickersLoading;
 
   return (
